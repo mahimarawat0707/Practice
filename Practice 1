@@ -5,38 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculator</title>
   <style>
-    #calculator{
-  border: 1px solid rgb(187, 183, 183);
-  border-radius: 15px;
-  width: 200px;
-  background-color: rgb(199, 236, 90);
-}
+   #calculator{
+     border: 1px solid rgb(187, 183, 183);
+     border-radius: 15px;
+     width: 200px;
+     background-color: rgb(199, 236, 90);
+   }
 
-#display{
-  margin: 10px;
-  width: 85%;
-  font-size: 25px;
-  border-radius: 15px;
-  background-color: rgb(222, 223, 223);
-}
+   #display{
+     margin: 10px;
+     width: 85%;
+     font-size: 25px;
+     border-radius: 15px;
+     background-color: rgb(222, 223, 223);
+   }
 
-.button-container{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+   .button-container{
+     display: flex;
+     justify-content: center;
+     flex-wrap: wrap;
+   }
 
-.button{
-  width: 45px;
-  height: 45px;
-  margin: 3px;
-  background-color: rgb(206, 230, 134);
-  border-radius: 15px;
-}
-#display{
-  text-align: right;
-}
+   .button{
+     width: 45px;
+     height: 45px;
+     margin: 3px;
+     background-color: rgb(206, 230, 134);
+     border-radius: 15px;
+   }
 
+   #display{
+     text-align: right;
+   }
 
   </style>
 </head>
