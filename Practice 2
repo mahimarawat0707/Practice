@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-image: url(https://www.elegantthemes.com/blog/wp-content/uploads/2013/09/bg-1-full.jpg);
+        }
+        h1 {
+          color: rgb(255, 255, 255);
+          font-size: 2cm;
+        }
+        #quote {
+            font-size: 24px;
+            margin: 20px;
+            color: #ffffff;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Quote Generator</h1>
+    <div id="quote">Click the button to get a quote!</div>
+    <button onclick="generateQuote()">Get a New Quote</button>
+    <button onclick="clearQuote()">Clear Quote</button>
+
+    <script>
+        const quotes = [ 
+            "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
+            "The way to get started is to quit talking and begin doing. - Walt Disney",
+            "Life is what happens when you're busy making other plans. - John Lennon",
+            "You only live once, but if you do it right, once is enough. - Mae West",
+            "The purpose of our lives is to be happy. - Dalai Lama",
+            "Get busy living or get busy dying. - Stephen King",
+            "You have within you right now, everything you need to deal with whatever the world can throw at you. - Brian Tracy",
+            "Believe you can and you're halfway there. - Theodore Roosevelt"
+        ];
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const randomQuote = quotes[randomIndex];
+            document.getElementById('quote').innerText = randomQuote;
+        }
+
+        function clearQuote() {
+          document.getElementById('quote').innerText = "Click the button to get a quote!"
+        }
+
+    </script>
+
+</body>
+</html>
