@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice 3</title>
+  <style>
+      body{
+        text-align: center;
+        background-image: url(https://static.vecteezy.com/system/resources/previews/008/384/939/large_2x/happy-shopping-girl-illustration-free-vector.jpg);
+      }
+      .bag{
+        background-color: rgb(171, 245, 61);
+        border: none;
+        padding-top: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 5px;
+        border-radius: 10px;
+      }
+      .wish{
+        padding: 5px 35px;
+        border: 2px solid black;
+        border-radius: 10px;
+        text-transform: uppercase;
+      }
+      .item{
+        background-color: rgb(171, 245, 61);
+        border: none;
+        padding-top: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 5px;
+        border-radius: 10px;
+      }
+  </style>
+</head>
+<body>
+  <button class="bag" onclick="cartQuantity += 1; document.querySelector('#cart-summary').
+  innerText = `Your Bag has ${cartQuantity} items`;">Add to Bag</button>
+
+  <button class="wish"  onclick="cartQuantity -=1; document.querySelector('#cart-summary').
+  innerText = `Your Bag has ${cartQuantity} items`;" >Move to Wishlist</button>
+
+  <button class="item"  onclick="cartQuantity += 2; document.querySelector('#cart-summary').
+  innerText = `Your Bag has ${cartQuantity} items`;">Add 1+1 sale item</button>
+
+  <h1 id="cart-summary"></h1>
+
+  <script>
+    let cartQuantity = 0;
+    document.querySelector('#cart-summary').innerText = `Your Bag has ${cartQuantity} items`;
+  </script>
+
+</body>
+</html>
