@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .mode{
+      background-color: black;
+      color: white;
+    }
+
+  </style>
+</head>
+<body  id="msg" class="mode">
+  <button onclick="changemode()">Switch to Dark/Light mode</button>
+  <h1>HELLO</h1>
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. At dolores quis, similique illo corporis fugiat in illum, rem repudiandae libero odio sed, aliquid earum. Optio quia in omnis iusto, suscipit, minus excepturi ad neque eum, sequi illum harum cumque nam deleniti id. Quod ipsum exercitationem hic inventore explicabo maxime consectetur! Suscipit necessitatibus optio quae harum doloremque, aspernatur obcaecati consectetur magnam laudantium. Aperiam laborum, obcaecati cupiditate reprehenderit nostrum dignissimos maxime necessitatibus? Aperiam magnam, voluptatem dolor asperiores iure ipsum nulla minima obcaecati dolorem natus ullam laboriosam ipsa neque velit laudantium reprehenderit, ex soluta officiis eum! Modi reiciendis nulla hic dolor fuga suscipit totam culpa in cupiditate obcaecati officiis molestiae vel, enim ipsum? Ex, iusto necessitatibus ab assumenda tempore impedit nesciunt ullam consequatur ut voluptates minus accusamus corrupti quasi? Dolorem tenetur, iste laborum, quis doloremque labore consectetur numquam deleniti praesentium dolor doloribus dolore quod ipsa eveniet exercitatione sint similique rem? Maiores saepe soluta, atque necessitatibus enim dolorem iusto vero maxime assumenda modi dignissimos aperiam aliquam, neque facilis iste! Quas aspernatur in et? Quibusdam eum itaque ut numquam cupiditate corporis dolores omnis porro dolorum vitae, architecto quaerat, ad placeat consequuntur atque exercitationem, id incidunt ipsam error eveniet molestias! Tempore, et aspernatur fuga officiis error impedit ullam sit dolore voluptates iste voluptatum a dolorum reprehenderit alias illo quam obcaecati modi illum natus delectus eius. Aut explicabo esse quasi expedita doloribus dolore error velit ratione, commodi quas recusandae aperiam enim numquam nisi iure voluptatem, accusantium quo. A quasi cum, tempora minus, qui dicta asperiores non blanditiis possimus delectus aut et sapiente eligendi facere deleniti recusandae quos? Ducimus consequuntur unde tempora eos. Aliquid vero unde libero. Doloremque necessitatibus minima sunt magni facilis perferendis reprehenderit aperiam voluptate architecto corrupti eos vero odit tempora placeat illo cum sit, rerum laudantium, velit similique alias consectetur ipsum. Natus rerum eum suscipit iusto alias mollitia consequatur quo est nemo doloribus! Nulla, dolores eos, rem, fuga pariatur odit non ratione sed vero perferendis cum cupiditate nesciunt doloremque? Voluptates harum ipsum fuga nihil repellendus, est molestiae delectus cupiditate ratione sapiente et, praesentium 
+
+  <script>
+    function changemode(){
+      document.querySelector("#msg").classList.toggle("mode")
+    }
+  </script>
+</body>
+</html>
