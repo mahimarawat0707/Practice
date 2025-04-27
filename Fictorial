@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1 id="msg"></h1>
+  <script>
+    let num, res=1;
+    num=parseInt(prompt("Enter a integer"))
+    for( i=1; i<=num; i++){
+      res=res *i
+    }
+    document.querySelector("#msg").textContent = res
+  </script>
+</body>
+</html>
