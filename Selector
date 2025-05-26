@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1 class="msg">Hello BCA</h1>
+  <h1 class="mgs">Hello BCA</h1>
+  <h1 class="sg">Hello BCA</h1>
+  <input type="text" id="txt" value="John">
+
+
+  <script>
+    //FOUR FUNCTION OF SECLECTOR FUNCTION
+    document.querySelector(".sg").innerHTML="<i>Good Morning</i>" //(we use innerHTML when we have to do formatting/styling)
+
+    document.querySelector(".mgs").textContent="Good Morning" //(we use textContent when we have to write it as it is)
+
+    document.querySelector(".msg").outerHTML="<button>Sign In</button>" //we use outerHTML when we have to replace the whole element
+
+    document.querySelector("#txt").value="BCA" //we have to use value in case of forms control in paragraph of div we can use innerHTML or outerHTML
+
+    //styling using CSS in JS
+    document.querySelector(".mgs").style.color="red"
+    document.querySelector(".mgs").style.backgroundColor="yellow"
+    document.querySelector(".mgs").style.fontSize="50px"
+  </script>
+</body>
+</html>
