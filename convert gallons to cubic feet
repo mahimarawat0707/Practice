@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+ double gallons, cubicFeet;
+ const double GALLONS_PER_CUBIC_FOOT = 7.481;
+ cout << "Enter the number of gallons: ";
+ cin >> gallons;
+ cubicFeet = gallons / GALLONS_PER_CUBIC_FOOT;
+ cout << "Equivalent in cubic feet: " << cubicFeet << endl;
+return 0;
+}
