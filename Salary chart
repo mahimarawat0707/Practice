@@ -1,0 +1,70 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Employee {
+private:
+    int E_ID;
+    string name;
+    float basicSalary;
+    float hra, ta, da;
+    int leaveTaken;
+    float commission;
+    float netSalary;
+
+public:
+    void input_details() {
+        cout << "ENTER EMPLOYEE ID: ";
+        cin >> E_ID;
+
+        cout << "ENTER NAME: ";
+        cin >> name;
+
+        cout << "Enter basic salary: ";
+        cin >> basicSalary;
+
+        cout << "Enter the number of leaves taken: ";
+        cin >> leaveTaken;
+
+        cout << "Enter commission: ";
+        cin >> commission;
+
+        // Salary component calculations
+        hra = 800;
+        da = 0.25f * basicSalary;
+        ta = 0.10f * basicSalary;
+
+        float grossSalary = basicSalary + hra + da + ta + commission;
+
+        // Leave deduction
+        int allowedLeave = 2;
+        float leaveDeduction = 0;
+        if (leaveTaken > allowedLeave) {
+            leaveDeduction = (leaveTaken - allowedLeave) * 500;
+        }
+
+        netSalary = grossSalary - leaveDeduction;
+    }
+
+    void display_details() {
+        cout << "\n----------- Salary Slip ------------------";
+        cout << "\nEmployee ID        : " << E_ID;
+        cout << "\nEmployee Name      : " << name;
+        cout << "\nBasic Salary       : " << basicSalary;
+        cout << "\nHRA                : " << hra;
+        cout << "\nDA                 : " << da;
+        cout << "\nTA                 : " << ta;
+        cout << "\nCommission         : " << commission;
+        cout << "\nLeaves Taken       : " << leaveTaken;
+        cout << "\nNet Salary         : " << netSalary;
+        cout << "\n------------------------------------------\n";
+    }
+};
+
+int main() {
+    Employee e;
+    e.input_details();
+    e.display_details();
+
+    return 0;
+}
