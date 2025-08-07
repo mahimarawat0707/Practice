@@ -1,0 +1,13 @@
+#include <iostream>
+
+class function {
+  int sum (int a, int b)
+  return a + b;
+
+  float sum (float a, float b)
+  return a + b;
+}
+int main() {
+  function obj;
+  obj.sum(5,7); //12
+  obj.sum(12.2, 8.8); //21.0
