@@ -1,0 +1,15 @@
+#include <iostream>
+using namespace std;
+
+void sayHello(string name) {
+    cout << "Hello, " << name << "! You look amazing today" << endl;
+}
+
+int main() {
+    string yourName;
+    cout << "Enter your name: ";
+    cin >> yourName;
+
+    sayHello(yourName);
+    return 0;
+}
