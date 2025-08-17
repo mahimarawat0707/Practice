@@ -1,0 +1,11 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int number = 4;
+        int square = number * number;
+        Console.WriteLine("Square = " + square);
+    }
+}
