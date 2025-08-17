@@ -1,0 +1,16 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int x = 5, y = 10;
+        Console.WriteLine("Before Swap: x=" + x + ", y=" + y);
+
+        int temp = x;
+        x = y;
+        y = temp;
+
+        Console.WriteLine("After Swap: x=" + x + ", y=" + y);
+    }
+}
