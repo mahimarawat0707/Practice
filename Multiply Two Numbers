@@ -1,0 +1,10 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int a = 6, b = 7;
+        Console.WriteLine("Product = " + (a * b));
+    }
+}
