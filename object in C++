@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class student{
+public:
+  int roll_no;
+  string name;
+};
+
+int main(){
+  student obj;
+  obj.roll_no = 111;
+  obj.na,e = "mahima";
+
+  student obj2 = obj;
+
+  cout << "obj.Roll_no: " <<obj.roll_no <<endl;
+  cout << "obj.Name: " <<obj.name <<endl;
+
+  return 0;
+}
