@@ -1,0 +1,10 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int fav = 7;
+        Console.WriteLine("My favorite number is: " + fav);
+    }
+}
