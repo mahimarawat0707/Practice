@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int rows = 10, cols = 10;
+
+    cout << "Multiplication Table (1 to 10)" << endl;
+
+    // Header row
+    cout << "\t";
+    for (int i = 1; i <= cols; ++i)
+        cout << i << "\t";
+    cout << endl;
+
+    // Table content
+    for (int i = 1; i <= rows; ++i) {
+        cout << i << "\t"; // Row header
+        for (int j = 1; j <= cols; ++j) {
+            cout << i * j << "\t";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
