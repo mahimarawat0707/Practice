@@ -1,0 +1,16 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int a = 12, b = 5, c = 8;
+
+        if (a < b && a < c)
+            Console.WriteLine(a + " is Smallest");
+        else if (b < c)
+            Console.WriteLine(b + " is Smallest");
+        else
+            Console.WriteLine(c + " is Smallest");
+    }
+}
