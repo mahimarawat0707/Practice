@@ -1,0 +1,23 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    int num, sum = 0, original, digit;
+    cout << "Enter a number: ";
+    cin >> num;
+    original = num;
+
+    while(num > 0) {
+        digit = num % 10;
+        sum += pow(digit, 3); // cube of each digit
+        num /= 10;
+    }
+
+    if(sum == original)
+        cout << "Armstrong Number ✨";
+    else
+        cout << "Not Armstrong 😘";
+
+    return 0;
+}
