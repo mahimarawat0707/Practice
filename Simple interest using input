@@ -1,0 +1,19 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Enter the amount of principal: ");
+        int principal = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter the rate of interest: ");
+        int rate = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter the time in years: ");
+        int time = int.Parse(Console.ReadLine());
+
+        double interest = (principal * rate * time) / 100.0;
+        Console.WriteLine("Simple Interest = " + interest);
+    }
+}
