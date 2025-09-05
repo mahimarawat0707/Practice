@@ -1,0 +1,22 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Enter the first number:");
+        string input1 = Console.ReadLine(); // User input as string
+        int number1 = int.Parse(input1);    // Convert to integer
+
+        Console.WriteLine("Enter the second number:");
+        string input2 = Console.ReadLine();
+        int number2 = int.Parse(input2);
+
+        int result = number1 - number2;
+
+        Console.WriteLine($"The result of {number1} - {number2} is: {result}");
+
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
+    }
+}
