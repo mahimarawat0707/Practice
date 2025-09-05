@@ -1,0 +1,75 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        while (true)
+        {
+            Console.Clear(); // Clear screen for a cleaner look
+            Console.WriteLine("==== SIMPLE CALCULATOR ====");
+            Console.WriteLine("1. Add");
+            Console.WriteLine("2. Subtract");
+            Console.WriteLine("3. Multiply");
+            Console.WriteLine("4. Divide");
+            Console.WriteLine("5. Exit");
+            Console.Write("Choose an option (1-5): ");
+            string choice = Console.ReadLine();
+
+            if (choice == "5")
+            {
+                Console.WriteLine("Exiting the calculator. Goodbye!");
+                break;
+            }
+
+            // Read first number
+            Console.Write("Enter the first number: ");
+            bool isValid1 = int.TryParse(Console.ReadLine(), out int num1);
+
+            // Read second number
+            Console.Write("Enter the second number: ");
+            bool isValid2 = int.TryParse(Console.ReadLine(), out int num2);
+
+            if (!isValid1 || !isValid2)
+            {
+                Console.WriteLine("Invalid input! Please enter valid numbers.");
+                Console.WriteLine("Press any key to try again...");
+                Console.ReadKey();
+                continue;
+            }
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine($"Result: {num1} + {num2} = {num1 + num2}");
+                    break;
+
+                case "2":
+                    Console.WriteLine($"Result: {num1} - {num2} = {num1 - num2}");
+                    break;
+
+                case "3":
+                    Console.WriteLine($"Result: {num1} * {num2} = {num1 * num2}");
+                    break;
+
+                case "4":
+                    if (num2 == 0)
+                    {
+                        Console.WriteLine("Error: Cannot divide by zero!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Result: {num1} / {num2} = {(double)num1 / num2}");
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid option. Please choose between 1 and 5.");
+                    break;
+            }
+
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+    }
+}
