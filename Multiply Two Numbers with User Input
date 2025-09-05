@@ -1,0 +1,28 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("=== MULTIPLICATION PROGRAM ===");
+
+        Console.Write("Enter the first number: ");
+        bool isValid1 = double.TryParse(Console.ReadLine(), out double num1);
+
+        Console.Write("Enter the second number: ");
+        bool isValid2 = double.TryParse(Console.ReadLine(), out double num2);
+
+        if (!isValid1 || !isValid2)
+        {
+            Console.WriteLine("❌ Invalid input! Please enter valid numbers.");
+        }
+        else
+        {
+            double result = num1 * num2;
+            Console.WriteLine($"✅ Result: {num1} × {num2} = {result}");
+        }
+
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadKey();
+    }
+}
