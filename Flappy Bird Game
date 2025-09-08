@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flappy Bird — HTML/CSS/JS</title>
+  <style>
+    :root{
+      --bg:#0ea5e9;
+      --ground:#10b981;
+      --pipe:#16a34a;
+      --text:#0b1220;
+      --white:#fff;
+      --card:rgba(255,255,255,.85);
+      --shadow:0 10px 30px rgba(0,0,0,.2);
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; margin:0; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(180deg, var(--bg) 0%, #86e0ff 60%);
+      display: grid; place-items: center; padding: 16px;
+    }
+    .wrap { width: min(94vw, 520px); }
+    header{display:flex; justify-content:space-between; margin-bottom:12px;}
+    .panel{ background: var(--card); border-radius: 20px; padding: 10px 12px; display:flex; gap:14px; }
+    .stat{ font-weight:800; }
+    .stage { position: relative; width: 100%; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, var(--bg) 0%, #9ae6ff 70%); }
+    canvas { width: 100%; display: block; }
+    .ground { position:absolute; left:0; right:0; bottom:0; height: 18%; background: linear-gradient(180deg, #a7f3d0 0%, var(--ground) 60%); }
+    .overlay { position:absolute; inset:0; display:grid; place-items:center; padding: 16px; pointer-events: none; }
+    .card{ pointer-events:auto; background: var(--card); border-radius: 24px; padding: 20px; text-align:center; }
+    .hidden { display:none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="panel"><div class="stat">Score: <span id="score">0</span></div><div class="stat">Best: <span id="best">0</span></div></div>
+      <button id="btnPause">⏸️ Pause</button>
+      <button id="btnRestart">🔄 Restart</button>
+    </header>
+    <div class="stage" id="stage">
+      <canvas id="game" width="400" height="600"></canvas>
+      <div class="ground"></div>
+      <div class="overlay" id="overlayStart"><div class="card"><h2>Flap to Fly 🐥</h2><button id="btnStart">▶️ Start</button></div></div>
+      <div class="overlay hidden" id="overlayOver"><div class="card"><h2>Game Over 💥</h2><p><strong>Score:</strong> <span id="overScore">0</span> • <strong>Best:</strong> <span id="overBest">0</span></p><button id="btnAgain">🔄 Play Again</button></div></div>
+    </div>
+  </div>
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const W_BASE = 400, H_BASE = 600;
+
+    // Physics tweaks
+    const G = 0.45;
+    const FLAP = -9;
+    const PIPE_SPEED_BASE = 2.4;
+    const PIPE_GAP_MIN = 120;
+    const PIPE_GAP_MAX = 170;
+    const PIPE_INTERVAL = 1400;
+    const PIPE_WIDTH = 66;
+
+    let running = false, paused = false, lastTime = 0, sincePipe = 0;
+    let score = 0, best = Number(localStorage.getItem('flappy-best')||0);
+
+    const elScore = document.getElementById('score');
+    const elBest = document.getElementById('best');
+    const elOverlayStart = document.getElementById('overlayStart');
+    const elOverlayOver = document.getElementById('overlayOver');
+    const elOverScore = document.getElementById('overScore');
+    const elOverBest = document.getElementById('overBest');
+
+    elBest.textContent = best;
+
+    const bird = {
+      x: 100,
+      y: 260,
+      r: 14,
+      vy: 0,
+      rot: 0,
+      flap(){ this.vy = FLAP; },
+      update(){ this.vy += G; this.y += this.vy; this.rot = Math.atan2(this.vy, 10); },
+      draw(){
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rot);
+        // body
+        roundedRect(-18, -12, 36, 24, 12, '#ffd166', '#ffb703');
+        // wing
+        roundedRect(-6, -6, 12, 12, 6, '#fee440', '#fca311');
+        // eye
+        circle(8, -4, 4, '#fff', '#333');
+        circle(9.5, -4, 1.6, '#333');
+        // beak
+        triangle(14, 0, 24, 4, 24, -4, '#fb8500', '#d65a00');
+        ctx.restore();
+      }
+    };
+
+    let pipes = [];
+    function spawnPipe(){ const gap = rand(PIPE_GAP_MIN, PIPE_GAP_MAX); const top = rand(60, H_BASE-60-gap); pipes.push({x:W_BASE+PIPE_WIDTH, top, gap, passed:false}); }
+
+    function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+    function checkCollisions(){
+      const groundY = H_BASE - (H_BASE*0.18);
+      if(bird.y+bird.r >= groundY) return true;
+      for(const p of pipes){
+        if(collidesCircleRect(bird.x,bird.y,bird.r,p.x,0,PIPE_WIDTH,p.top)) return true;
+        if(collidesCircleRect(bird.x,bird.y,bird.r,p.x,p.top+p.gap,PIPE_WIDTH,H_BASE)) return true;
+      }
+      return false;
+    }
+
+    function collidesCircleRect(cx,cy,cr,rx,ry,rw,rh){
+      const nx = Math.max(rx, Math.min(cx, rx+rw));
+      const ny = Math.max(ry, Math.min(cy, ry+rh));
+      const dx = cx-nx, dy=cy-ny; return dx*dx+dy*dy <= cr*cr;
+    }
+
+    function reset(){
+      score=0; elScore.textContent=score; sincePipe=-600; lastTime=0; bird.x=100; bird.y=260; bird.vy=0; pipes=[];
+    }
+
+    function start(){ reset(); running=true; elOverlayStart.classList.add('hidden'); elOverlayOver.classList.add('hidden'); requestAnimationFrame(tick); }
+
+    function gameOver(){ running=false; elOverlayOver.classList.remove('hidden'); elOverScore.textContent=score; if(score>best){best=score; localStorage.setItem('flappy-best',best);} elBest.textContent=best; elOverBest.textContent=best; }
+
+    function tick(t){ if(!running) return; if(!lastTime) lastTime=t; const dt=t-lastTime; lastTime=t; if(paused){draw();requestAnimationFrame(tick);return;} update(dt); draw(); requestAnimationFrame(tick); }
+
+    function update(dt){ bird.update(); sincePipe+=dt; if(sincePipe>PIPE_INTERVAL){spawnPipe(); sincePipe=0;} const speed=PIPE_SPEED_BASE; for(const p of pipes){p.x-=speed;} pipes=pipes.filter(p=>p.x+PIPE_WIDTH>-10); for(const p of pipes){ if(!p.passed && p.x+PIPE_WIDTH<bird.x){p.passed=true; score++; elScore.textContent=score;} } if(checkCollisions()) gameOver(); }
+
+    function draw(){ ctx.clearRect(0,0,W_BASE,H_BASE); drawClouds(); for(const p of pipes){ ctx.fillStyle='#16a34a'; ctx.fillRect(p.x,0,PIPE_WIDTH,p.top); ctx.fillRect(p.x,p.top+p.gap,PIPE_WIDTH,H_BASE-(p.top+p.gap)); } bird.draw(); ctx.fillStyle='#fff'; ctx.font='20px sans-serif'; ctx.fillText(score,10,20); }
+
+    // Drawing helpers
+    function circle(x,y,r, fill, stroke){ ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); if(fill){ctx.fillStyle=fill;ctx.fill();} if(stroke){ctx.strokeStyle=stroke;ctx.stroke();} }
+    function roundedRect(x,y,w,h,r,fill,stroke){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); if(fill){ctx.fillStyle=fill;ctx.fill();} if(stroke){ctx.strokeStyle=stroke;ctx.stroke();} }
+    function triangle(x1,y1,x2,y2,x3,y3,fill,stroke){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.lineTo(x3,y3); ctx.closePath(); if(fill){ctx.fillStyle=fill;ctx.fill();} if(stroke){ctx.strokeStyle=stroke;ctx.stroke();} }
+
+    function drawClouds(){ const t = performance.now()/1000; const baseY = 80; for(let i=0;i<6;i++){ const x=(W_BASE-((t*20+i*120)%(W_BASE+120))); const y=baseY+Math.sin((t+i)*0.6)*8+i*6; ctx.fillStyle='rgba(255,255,255,.85)'; circle(x,y,16,ctx.fillStyle); circle(x+14,y+4,12,ctx.fillStyle); circle(x-14,y+6,12,ctx.fillStyle); } }
+
+    document.getElementById('btnStart').addEventListener('click',start);
+    document.getElementById('btnAgain').addEventListener('click',start);
+    document.getElementById('btnRestart').addEventListener('click',start);
+    window.addEventListener('keydown',e=>{ if(['Space','ArrowUp'].includes(e.code)){ e.preventDefault(); if(!running) start(); bird.flap(); } });
+    window.addEventListener('click',()=>{ if(!running) start(); bird.flap(); });
+  </script>
+</body>
+</html>
