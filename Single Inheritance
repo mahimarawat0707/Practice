@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+class Person {
+public:
+    string name;
+    int age;
+
+    void inputDetails(string n, int a) {
+        name = n;
+        age = a;
+    }
+
+    void displayDetails() {
+        cout << "Name: " << name << ", Age: " << age << endl;
+    }
+};
+
+class Student : public Person {
+public:
+    int studentID;
+
+    void setStudent(int id) {
+        studentID = id;
+    }
+
+    void showStudent() {
+        cout << "Student ID: " << studentID << endl;
+        displayDetails(); // calling base class function
+    }
+};
+
+int main() {
+    Student s1;
+    s1.inputDetails("Rahul", 21);
+    s1.setStudent(1001);
+
+    cout << "--- Student Info ---" << endl;
+    s1.showStudent();
+
+    return 0;
+}
