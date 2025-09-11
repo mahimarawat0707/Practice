@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+class Device {
+public:
+    void info() { cout << "This is a device." << endl; }
+};
+
+class Phone : virtual public Device {
+public:
+    void call() { cout << "Making a call." << endl; }
+};
+
+class Camera : virtual public Device {
+public:
+    void click() { cout << "Clicking a photo." << endl; }
+};
+
+class SmartPhone : public Phone, public Camera {
+public:
+    void features() { cout << "Smartphone has both call and camera features." << endl; }
+};
+
+int main() {
+    SmartPhone s;
+    s.info();
+    s.call();
+    s.click();
+    s.features();
+    return 0;
+}
