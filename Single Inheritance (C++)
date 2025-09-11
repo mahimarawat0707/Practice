@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+// Base class
+class Employee {
+public:
+    void work() {
+        cout << "Employee is working." << endl;
+    }
+};
+
+// Derived class
+class Manager : public Employee {
+public:
+    void manage() {
+        cout << "Manager is managing the team." << endl;
+    }
+};
+
+int main() {
+    Manager m;
+    m.work();    // Inherited from Employee
+    m.manage();  // Defined in Manager
+    return 0;
+}
