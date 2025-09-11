@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+
+// Base class 1
+class Manager {
+public:
+    void manage() {
+        cout << "Managing tasks" << endl;
+    }
+};
+
+// Base class 2
+class Developer {
+public:
+    void code() {
+        cout << "Writing code" << endl;
+    }
+};
+
+// Derived class
+class TechLead : public Manager, public Developer {
+public:
+    void lead() {
+        cout << "Leading the team" << endl;
+    }
+};
+
+int main() {
+    TechLead lead;
+    lead.manage();   // from Manager
+    lead.code();     // from Developer
+    lead.lead();     // from TechLead
+    return 0;
+}
