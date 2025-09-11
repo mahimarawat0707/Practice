@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+
+// Base class
+class Person {
+public:
+    void showPerson() {
+        cout << "I am a person." << endl;
+    }
+};
+
+// Derived from Person (hierarchical part)
+class Student : virtual public Person {
+public:
+    void showStudent() {
+        cout << "I am a student." << endl;
+    }
+};
+
+// Another derived from Person (hierarchical part)
+class Employee : virtual public Person {
+public:
+    void showEmployee() {
+        cout << "I am an employee." << endl;
+    }
+};
+
+// Derived from both Student and Employee (multiple inheritance part)
+class WorkingStudent : public Student, public Employee {
+public:
+    void showWorkingStudent() {
+        cout << "I am a working student." << endl;
+    }
+};
+
+int main() {
+    WorkingStudent ws;
+    ws.showPerson();         // From Person (inherited virtually)
+    ws.showStudent();        // From Student
+    ws.showEmployee();       // From Employee
+    ws.showWorkingStudent(); // From WorkingStudent
+
+    return 0;
+}
