@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+class Vehicle {
+public:
+    void move() { cout << "This is a vehicle." << endl; }
+};
+
+class Car : public Vehicle {
+public:
+    void wheels() { cout << "Car has 4 wheels." << endl; }
+};
+
+class ElectricCar : public Car {
+public:
+    void battery() { cout << "Runs on electric battery." << endl; }
+};
+
+int main() {
+    ElectricCar tesla;
+    tesla.move();
+    tesla.wheels();
+    tesla.battery();
+    return 0;
+}
