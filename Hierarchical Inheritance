@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+// Base class
+class Person {
+public:
+    void showPerson() {
+        cout << "I am a person." << endl;
+    }
+};
+
+// Derived class 1
+class Student : public Person {
+public:
+    void showStudent() {
+        cout << "I am a student." << endl;
+    }
+};
+
+// Derived class 2
+class Employee : public Person {
+public:
+    void showEmployee() {
+        cout << "I am an employee." << endl;
+    }
+};
+
+int main() {
+    Student s;
+    Employee e;
+
+    cout << "For Student object:" << endl;
+    s.showPerson();   // From Person
+    s.showStudent();  // From Student
+
+    cout << "\nFor Employee object:" << endl;
+    e.showPerson();   // From Person
+    e.showEmployee(); // From Employee
+
+    return 0;
+}
