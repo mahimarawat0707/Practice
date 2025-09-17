@@ -1,0 +1,30 @@
+using System;
+
+class Car
+{
+    // Fields (attributes)
+    public string color = "red";
+    public int maxSpeed = 200;
+
+    // Method (behavior)
+    public void Drive()
+    {
+        Console.WriteLine("The car is driving.");
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Create an object of Car class
+        Car myCar = new Car();
+
+        // Access fields
+        Console.WriteLine(myCar.color);
+        Console.WriteLine(myCar.maxSpeed);
+
+        // Call method
+        myCar.Drive();
+    }
+}
