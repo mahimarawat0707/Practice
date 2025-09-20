@@ -15,9 +15,9 @@ int main() {
     }
 
     if(sum == original)
-        cout << "Armstrong Number ✨";
+        cout << "Armstrong Number";
     else
-        cout << "Not Armstrong 😘";
+        cout << "Not Armstrong";
 
     return 0;
 }
