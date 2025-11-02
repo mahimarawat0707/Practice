@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GitHub — Clone (HTML & CSS)</title>
+  <meta name="description" content="Simple GitHub-like UI clone built with plain HTML & CSS (single file)." />
+  <style>
+    /* ---------- CSS VARIABLES ---------- */
+    :root{
+      --bg:#0d1117; /* github dark bg */
+      --panel:#0f1720;
+      --muted:#8b949e;
+      --text:#c9d1d9;
+      --accent:#238636; /* green */
+      --accent-2:#2ea44f;
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+      --repo-card:#010409;
+      --shadow: 0 6px 20px rgba(2,6,23,0.6);
+      --radius:10px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    /* ---------- BASE ---------- */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg), #051018 60%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:24px;
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* ---------- LAYOUT ---------- */
+    .app{
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:20px;
+      align-items:start;
+    }
+
+    /* ---------- TOP NAV ---------- */
+    .topbar{
+      grid-column:1 / -1;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:12px 16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      margin-bottom:8px;
+    }
+
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand svg{width:36px;height:36px}
+    .brand .title{font-weight:600;letter-spacing:0.2px}
+    .search{
+      flex:1;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:var(--glass);
+      padding:8px 12px;
+      border-radius:8px;
+    }
+    .search input{background:transparent;border:0;outline:0;color:var(--text);font-size:14px;width:100%}
+
+    .top-actions{display:flex;gap:10px;align-items:center}
+    .btn{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer
+    }
+    .btn.primary{background:var(--accent);border-color:transparent;color:white}
+
+    /* ---------- SIDEBAR ---------- */
+    .sidebar{
+      background:linear-gradient(180deg,var(--panel), rgba(255,255,255,0.01));
+      border-radius:12px;padding:16px;min-height:480px;box-shadow:var(--shadow)
+    }
+    .nav{display:flex;flex-direction:column;gap:8px}
+    .nav a{padding:8px;border-radius:8px;color:var(--muted);display:flex;gap:10px;align-items:center;font-size:14px}
+    .nav a:hover{background:var(--glass-2);color:var(--text)}
+
+    .profile{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+    .avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(90deg,#1b1f23,#0b1116);display:flex;align-items:center;justify-content:center;font-weight:700}
+
+    /* ---------- MAIN ---------- */
+    .main{
+      display:grid;
+      gap:16px;
+    }
+
+    .repo-header{display:flex;justify-content:space-between;align-items:center;padding:14px;background:var(--repo-card);border-radius:12px}
+    .repo-meta{display:flex;gap:12px;align-items:center}
+    .repo-name{font-weight:700;font-size:18px}
+    .language-pill{padding:6px 10px;border-radius:999px;font-size:13px;background:rgba(255,255,255,0.04);color:var(--muted)}
+
+    /* ---------- GRID CONTENT ---------- */
+    .content-grid{display:grid;grid-template-columns:1fr 340px;gap:16px}
+
+    /* Repo card / file list */
+    .panel{background:linear-gradient(180deg,var(--panel), rgba(255,255,255,0.01));padding:14px;border-radius:12px}
+    .file-list{display:flex;flex-direction:column;gap:8px}
+    .file{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px}
+    .file:hover{background:var(--glass-2)}
+    .file .name{display:flex;gap:8px;align-items:center}
+    .file svg{width:18px;height:18px}
+
+    /* README preview */
+    .readme{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));padding:14px;border-radius:8px}
+    .readme h2{margin:6px 0}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* SIDEBAR RIGHT */
+    .right-card{position:sticky;top:24px}
+    .card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .stat{display:flex;gap:8px;align-items:center;font-size:13px}
+
+    /* REPO LIST */
+    .repos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .repo-card{background:linear-gradient(180deg,#010409, rgba(255,255,255,0.01));padding:12px;border-radius:10px}
+    .repo-card .meta{display:flex;justify-content:space-between;align-items:center}
+
+    /* FOOTER SMALL */
+    .small{font-size:13px;color:var(--muted)}
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width:920px){
+      .app{grid-template-columns:1fr;}
+      .content-grid{grid-template-columns:1fr}
+      .right-card{position:relative;top:unset}
+    }
+
+    /* ---------- UTILS ---------- */
+    .flex{display:flex;align-items:center}
+    .space{flex:1}
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- TOP NAV -->
+    <header class="topbar" role="banner">
+      <div class="brand">
+        <!-- GitHub-like logo (SVG) -->
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012.01-.27c.68 0 1.36.09 2.01.27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill="white"/>
+        </svg>
+        <div>
+          <div class="title">CodeHost</div>
+          <div class="small muted">A minimal repo browser</div>
+        </div>
+      </div>
+
+      <div class="search" role="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <input placeholder="Search repositories, issues, users..." aria-label="Search" />
+      </div>
+
+      <div class="top-actions">
+        <button class="btn">Pull requests</button>
+        <button class="btn">Issues</button>
+        <button class="btn">Marketplace</button>
+        <button class="btn primary">New</button>
+        <div style="width:8px"></div>
+        <div class="avatar" title="You">B</div>
+      </div>
+    </header>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar">B</div>
+        <div>
+          <div style="font-weight:700">Boss</div>
+          <div class="muted">@boss-dev</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#">Overview</a>
+        <a href="#">Repositories</a>
+        <a href="#">Projects</a>
+        <a href="#">Stars</a>
+        <a href="#">Followers</a>
+        <a href="#">Settings</a>
+      </nav>
+
+      <hr style="border:0;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+
+      <div>
+        <div style="font-size:13px;margin-bottom:8px">Pinned</div>
+        <div class="repos">
+          <div class="repo-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:700">awesome-project</div>
+                <div class="muted small">A shiny project</div>
+              </div>
+              <div class="language-pill">HTML</div>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:700">portfolio</div>
+                <div class="muted small">My portfolio site</div>
+              </div>
+              <div class="language-pill">CSS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main" role="main">
+
+      <!-- Repository Header -->
+      <div class="repo-header">
+        <div class="repo-meta">
+          <div style="background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:8px;font-size:12px">boss-dev / demo-repo</div>
+          <div class="repo-name">demo-repo</div>
+          <div class="language-pill">JavaScript</div>
+        </div>
+
+        <div class="flex">
+          <button class="btn">Star</button>
+          <div style="width:8px"></div>
+          <button class="btn">Fork</button>
+        </div>
+      </div>
+
+      <!-- Grid: file list + right sidebar -->
+      <div class="content-grid">
+
+        <!-- LEFT: File explorer + README -->
+        <section>
+          <div class="panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <div style="font-weight:700">Files</div>
+              <div class="muted small">branch: main</div>
+            </div>
+
+            <div class="file-list">
+              <div class="file">
+                <div class="name"><svg viewBox="0 0 24 24" fill="none"><path d="M3 3h8l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><div>index.html</div></div>
+                <div class="muted">2 KB</div>
+              </div>
+
+              <div class="file">
+                <div class="name"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><div>styles.css</div></div>
+                <div class="muted">4 KB</div>
+              </div>
+
+              <div class="file">
+                <div class="name"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><div>script.js</div></div>
+                <div class="muted">1 KB</div>
+              </div>
+
+              <div class="file">
+                <div class="name"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><div>README.md</div></div>
+                <div class="muted">6 KB</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel readme">
+            <h2>demo-repo</h2>
+            <div class="muted">A tiny demo repo to show a GitHub-like layout built with HTML & CSS.</div>
+            <hr style="border:0;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+            <p>This demonstrates a repository view: file list + README preview + quick actions. Use this template to showcase your projects without backend — it's purely static.
+            </p>
+
+            <h3>How to use</h3>
+            <ul>
+              <li>Open the single HTML file in a browser to preview the UI.</li>
+              <li>Edit the file list, change project name, or pin repos in the left panel.</li>
+            </ul>
+            <div style="margin-top:10px" class="small muted">Tip: I can add interactive JS (live file viewer, search, repo switching) if you want — say the word.</div>
+          </div>
+        </section>
+
+        <!-- RIGHT: Repo details -->
+        <aside class="right-card">
+          <div class="panel">
+            <div class="card-title">
+              <div style="font-weight:700">About</div>
+              <div class="muted small">Updated just now</div>
+            </div>
+            <div class="muted">A demonstration repository for UI cloning practice. Contains small files and a README preview.</div>
+            <hr style="border:0;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+            <div class="stat"><strong>Stars</strong><div class="space"></div>42</div>
+            <div class="stat"><strong>Forks</strong><div class="space"></div>10</div>
+            <div style="height:12px"></div>
+            <div style="display:flex;gap:8px"><button class="btn">Watch</button><button class="btn">Sponsor</button></div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel">
+            <div style="font-weight:700;margin-bottom:8px">Languages</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><div class="language-pill">JavaScript</div><div class="language-pill">HTML</div><div class="language-pill">CSS</div></div>
+          </div>
+        </aside>
+
+      </div>
+
+    </main>
+
+  </div>
+</body>
+</html>
